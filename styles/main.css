@@ -73,6 +73,7 @@ html {
      .column.half { width: 50%; }
      .column.third { width: 33.3%; }
      .column.fourth { width: 25%; }
+<<<<<<< HEAD
      .column.flow-opposite { float: right; }
 
 }
@@ -87,6 +88,21 @@ html {
     clear: both;
 }
 
+=======
+     .column.flow-opposite { float: right; } 
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+>>>>>>> 5b744bb62050476a7f041153b36ccb303c3758b5
 @media (min-width: 64rem) {
     html { font-size: 120%; }
 }
