@@ -40,6 +40,10 @@ html {
     max-width: 64rem;
 }
 
+ .container.narrow {
+     max-width: 56rem;
+ }
+
 .links-container .navbar-link {
      display: table-cell;
      position: relative;
