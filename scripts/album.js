@@ -30,6 +30,22 @@
      ]
  };
 
+//My created Album
+var albumDistract = {
+    name: 'Easily Distracted',
+    artist: "Joon 'Distract' Choi",
+    label: 'Iconic Sounds',
+    year: '2015',
+    albumArtUrl: 'assets/images/album_covers/DISTRACT.jpg',
+    songs: [
+        { name: 'Good Time', length: '3:44' },
+        { name: 'Heart Attack (Feat. J.Praize, Crush, Command Freaks)', length: '4:01' },
+        { name: 'Right Next To You', length: '4:16'},
+        { name: 'For The Record (Feat. Andrew Choi)', length: '3:56' },
+        { name: 'Go! Stop! (Feat. Sophia Pae)', length: '4:04'} 
+    ]
+};
+
  var createSongRow = function(songNumber, songName, songLength) {
      
      var template =
@@ -68,17 +84,31 @@ var songRows = document.getElementsByClassName('album-view-song-item');
 // Album button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 
-window.onload = function() {       
-    setCurrentAlbum(albumPicasso);
+var albums = [albumDistract, albumPicasso, albumMarconi];
+
+window.onload = function() {
+    var currentAlbumIndex = 0;
+    setCurrentAlbum(albums[currentAlbumIndex]);
+
+    toggleit = function() {
+        currentAlbumIndex++;
+        if (currentAlbumIndex === albums.length) {
+            currentAlbumIndex = 0;
+        }        
+        setCurrentAlbum(albums[currentAlbumIndex]);
+    }
+    document.getElementsByClassName('album-cover-art')[0].addEventListener("click", toggleit);
+
     songListContainer.addEventListener('mouseover', function(event) { 
         if (event.target.parentElement.className === 'album-view-song-item') {
             event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
         }
     });
-};
+
     for (i = 0; i < songRows.length; i++) {
          songRows[i].addEventListener('mouseleave', function(event) {
              // Selects first child element, which is the song-item-number element
              this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
          });
     }
+};
