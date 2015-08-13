@@ -81,10 +81,13 @@ var albums = [albumDistract, albumPicasso, albumMarconi];
 window.onload = function() {
     setCurrentAlbum(albumMarconi);
     function toggleit(discography) {
-    for (var i = 0; i < discography.length; i++) {
-        return discography[i];
+        for (var i = 0; i < discography.length; i++) {
+            if (discography[i] === discography[2]) {
+                return document.getElementsByClassName("album-cover-art")[0].addEventListener("click", discography[0]);
+            }
+            else {
+                return discography[i];
+            }
+        };
+    };
 };
-    toggleit(albums);
-document.getElementsByClassName("album-cover-art").addEventListener("click", toggleit(albums));
-
-  };
