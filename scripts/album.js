@@ -31,6 +31,7 @@
  };
 
 //My created Album
+<<<<<<< HEAD
  var albumDistract = {
      name: 'Easily Distracted',
      artist: "Joon 'Distract' Choi",
@@ -45,12 +46,28 @@
          { name: 'Go! Stop! (Feat. Sophia Pae)', length: '4:04'} 
      ]
  };
+=======
+var albumDistract = {
+    name: 'Easily Distracted',
+    artist: "Joon 'Distract' Choi",
+    label: 'Iconic Sounds',
+    year: '2015',
+    albumArtUrl: 'assets/images/album_covers/DISTRACT.jpg',
+    songs: [
+        { name: 'Good Time', length: '3:44' },
+        { name: 'Heart Attack (Feat. J.Praize, Crush, Command Freaks)', length: '4:01' },
+        { name: 'Right Next To You', length: '4:16'},
+        { name: 'For The Record (Feat. Andrew Choi)', length: '3:56' },
+        { name: 'Go! Stop! (Feat. Sophia Pae)', length: '4:04'} 
+    ]
+};
+>>>>>>> checkpoint-26
 
  var createSongRow = function(songNumber, songName, songLength) {
      
      var template =
         '<tr class="album-view-song-item">'
-      + '  <td class="song-item-number">' + songNumber + '</td>'
+      + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
       + '  <td class="song-item-duration">' + songLength + '</td>'
       + '</tr>'
@@ -75,7 +92,17 @@
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
     }
  };
+
+// Elements we'll be adding listeners to
+var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+var songRows = document.getElementsByClassName('album-view-song-item');
  
+<<<<<<< HEAD
+=======
+// Album button templates
+var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
+>>>>>>> checkpoint-26
 var albums = [albumDistract, albumPicasso, albumMarconi];
 
 window.onload = function() {
@@ -88,6 +115,24 @@ window.onload = function() {
             currentAlbumIndex = 0;
         }        
         setCurrentAlbum(albums[currentAlbumIndex]);
+<<<<<<< HEAD
     };
 document.getElementsByClassName('album-cover-art')[0].addEventListener("click", toggleit);
+=======
+    }
+    document.getElementsByClassName('album-cover-art')[0].addEventListener("click", toggleit);
+
+    songListContainer.addEventListener('mouseover', function(event) { 
+        if (event.target.parentElement.className === 'album-view-song-item') {
+            event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+        }
+    });
+
+    for (i = 0; i < songRows.length; i++) {
+         songRows[i].addEventListener('mouseleave', function(event) {
+             // Selects first child element, which is the song-item-number element
+             this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+         });
+    }
+>>>>>>> checkpoint-26
 };
