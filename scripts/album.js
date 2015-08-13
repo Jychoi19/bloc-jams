@@ -30,6 +30,22 @@
      ]
  };
 
+//My created Album
+ var albumDistract = {
+     name: 'Easily Distracted',
+     artist: "Joon 'Distract' Choi",
+     label: 'Iconic Sounds',
+     year: '2015',
+     albumArtUrl: 'assets/images/album_covers/DISTRACT.jpg',
+     songs: [
+         { name: 'Good Time', length: '3:44' },
+         { name: 'Heart Attack (Feat. J.Praize, Crush, Command Freaks)', length: '4:01' },
+         { name: 'Right Next To You', length: '4:16'},
+         { name: 'For The Record (Feat. Andrew Choi)', length: '3:56' },
+         { name: 'Go! Stop! (Feat. Sophia Pae)', length: '4:04'} 
+     ]
+ };
+
  var createSongRow = function(songNumber, songName, songLength) {
      
      var template =
@@ -58,11 +74,17 @@
     for (i = 0; i < album.songs.length; i++) {
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
     }
- 
  };
  
- window.onload = function() {
-   
-     setCurrentAlbum(albumPicasso);
-     
- };
+var albums = [albumDistract, albumPicasso, albumMarconi];
+
+window.onload = function() {
+    setCurrentAlbum(albumMarconi);
+    function toggleit(discography) {
+    for (var i = 0; i < discography.length; i++) {
+        return discography[i];
+};
+    toggleit(albums);
+document.getElementsByClassName("album-cover-art").addEventListener("click", toggleit(albums));
+
+  };
