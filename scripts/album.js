@@ -40,10 +40,10 @@
      albumArtUrl: 'assets/images/album_covers/DISTRACT.jpg',
      songs: [
          { name: 'Good Time', length: '3:44' },
-         { name: 'Heart Attack (Feat. J.Praize, Crush, Command Freaks)', length: '4:01' },
+         { name: 'Heart Attack', length: '4:01' },
          { name: 'Right Next To You', length: '4:16'},
-         { name: 'For The Record (Feat. Andrew Choi)', length: '3:56' },
-         { name: 'Go! Stop! (Feat. Sophia Pae)', length: '4:04'} 
+         { name: 'For The Record', length: '3:56' },
+         { name: 'Go! Stop!', length: '4:04'} 
      ]
  };
 
@@ -76,6 +76,60 @@
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
     }
  };
+/**
+var findParentByClassName = function(element, target) {
+    element.parentElement.innerHTML = document.querySelector('.song-item-number');
+} 
+**/
+
+var findParentByClassName = function(element, targetClass) {
+    
+    var currentParent = element.parentElement;
+    
+    while (currentParent.className != targetClass) {
+        currentParent = currentParent.parentElement
+    }
+    
+    return currentParent;
+};
+
+var getSongItem = function(element) {
+    switch(element.className) {
+        case 'album-song-button':
+        case 'ion-play':
+        case 'ion-pause': 
+            return findParentByClassName(element, 'song-item-number');
+        case 'album-view-song-item':
+            return element.querySelector('.song-item-number');
+        case 'song-item-title':
+        case 'song-item-duration':
+            return findParentByClassName(element, 'album-view-song-item').querySelector('.song-item-number');
+        case 'song-item-number':
+            return element;
+        default:
+            return;
+    }
+}; 
+
+ var clickHandler = function(targetElement) {
+
+     var songItem = getSongItem(targetElement);  
+ 
+     if (currentlyPlayingSong === null) {
+        songItem.innerHTML = pauseButtonTemplate;
+        currentlyPlayingSong = songItem.getAttribute('data-song-number');
+     } 
+     else if (currentlyPlayingSong === songItem.getAttribute('data-song-number')) {
+         songItem.innerHTML = playButtonTemplate;
+         currentlyPlayingSong = null;
+     }
+     else if (currentlyPlayingSong !== songItem.getAttribute('data-song-number')) {
+         var currentlyPlayingSongElement = document.querySelector('[data-song-number="' + currentlyPlayingSong + '"]');
+         currentlyPlayingSongElement.innerHTML = currentlyPlayingSongElement.getAttribute('data-song-number');
+         songItem.innerHTML = pauseButtonTemplate;
+         currentlyPlayingSong = songItem.getAttribute('data-song-number');
+     }
+ };
 
 // Elements we'll be adding listeners to
 var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
@@ -83,6 +137,10 @@ var songRows = document.getElementsByClassName('album-view-song-item');
 
 // Album button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
+
+// Store state of playing songs
+var currentlyPlayingSong = null;
 
 var albums = [albumDistract, albumPicasso, albumMarconi];
 
@@ -102,13 +160,26 @@ window.onload = function() {
     songListContainer.addEventListener('mouseover', function(event) { 
         if (event.target.parentElement.className === 'album-view-song-item') {
             event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+            var songItem = getSongItem(event.target);
+
+            if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
+                songItem.innerHTML = playButtonTemplate;
+            }
         }
     });
 
     for (i = 0; i < songRows.length; i++) {
          songRows[i].addEventListener('mouseleave', function(event) {
-             // Selects first child element, which is the song-item-number element
-             this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+             var leavingSongItem = getSongItem(event.target);
+             var leavingSongItemNumber = leavingSongItem.getAttribute('data-song-number');
+            
+             if (leavingSongItemNumber !== currentlyPlayingSong) {
+                 leavingSongItem.innerHTML = leavingSongItemNumber;
+             }             
+         });
+ 
+         songRows[i].addEventListener('click', function(event) {
+             clickHandler(event.target);
          });
     }
 };
