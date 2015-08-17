@@ -10,9 +10,9 @@ var animatePoints = function() {
 };
 
  $(window).load(function() {
-        if ($(window).height() > 950) {
-            animatePoints();
-        }
+    if ($(window).height() > 950) {
+        animatePoints();
+    }
     $(window).scroll(function(event) {
         if ($(window).scrollTop() >= 500) {
             animatePoints();
