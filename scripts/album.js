@@ -76,17 +76,17 @@
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
     }
  };
-/**
-var findParentByClassName = function(element, target) {
-    element.parentElement.innerHTML = document.querySelector('.song-item-number');
-} 
-**/
 
 var findParentByClassName = function(element, targetClass) {
-    
     var currentParent = element.parentElement;
-    
+    if (currentParent === null) {
+      return alert("No Parent Found");
+    }
+   
     while (currentParent.className != targetClass) {
+        if (currentParent.parentElement === null) {
+         return alert("No parent found with that class name");
+        }
         currentParent = currentParent.parentElement
     }
     
