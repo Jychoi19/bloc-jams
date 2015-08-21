@@ -35,6 +35,13 @@ html {
      text-decoration: none;
 }
 
+ .navbar-link:active {
+     color:rgb(233,50,117);
+}
+ .navbar-link:hover {
+     background-color: white;
+ }
+
 .container {
     margin: 0 auto;
     max-width: 64rem;
