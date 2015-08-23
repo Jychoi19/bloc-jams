@@ -30,7 +30,7 @@
         $(this).html(playButtonTemplate);
         $('.left-controls .play-pause').html(playerBarPlayButton);
             if (currentSoundFile.isPaused()) {
-                $(this).html(playButtonTemplate);
+                $(this).html(pauseButtonTemplate);
                 $('.left-controls .play-pause').html(playerBarPauseButton);
                 currentSoundFile.play();
             }
@@ -58,7 +58,7 @@
         if (songNumber !== currentlyPlayingSongNumber) {
             songNumberCell.html(songNumber);
         }
-        console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
+        //console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
     };
 
     $row.find('.song-item-number').click(clickHandler);
@@ -190,11 +190,29 @@ var getSongNumberCell = function(number) {
     return $('.song-item-number[data-song-number="' + number + '"]');
 }
 
+var togglePlayFromPlayerBar = function() {
+    if (currentSoundFile === null) {
+        return;
+    }
+    var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+    if (currentSoundFile.isPaused()) {
+        currentlyPlayingCell.html(pauseButtonTemplate);
+        $('.left-controls .play-pause').html(playerBarPauseButton);
+        currentSoundFile.play();
+    }
+    else if (currentSoundFile) {
+        currentlyPlayingCell.html(playButtonTemplate);
+        $('.left-controls .play-pause').html(playerBarPlayButton);
+        currentSoundFile.pause();
+    }
+};
+
 var albums = [albumPicasso, albumDistract, albumMarconi];
 
 $(document).ready(function() {
     var currentAlbumIndex = 0;
     setCurrentAlbum(albums[currentAlbumIndex]);
+    $('.left-controls .play-pause').click(togglePlayFromPlayerBar);
 
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
