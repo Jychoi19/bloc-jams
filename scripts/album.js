@@ -4,7 +4,7 @@
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
       + '</tr>'
       ;
 
@@ -80,11 +80,18 @@
     $albumReleaseInfo.text(album.year + ' ' + album.label);
     $albumImage.attr('src', album.albumArtUrl);
     $albumSongList.empty();
-    for (i = 0; i < album.songs.length; i++) {
-        var $newRow = createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
-        $albumSongList.append($newRow);
+    var rows = [];
+    for (var i = 0; i < album.songs.length; i++) {
+        var loadsong = new buzz.sound(album.songs[i].audioUrl, {formats: ['mp3']});
+        (function(index){
+            loadsong.bind("loadedmetadata", function(event){
+                var $newRow = createSongRow(index+1, album.songs[index].name, this.getDuration());
+                rows[index] = $newRow;
+                $albumSongList.append(rows);
+            });
+        })(i);   
     }
- };
+};
 
  var trackIndex = function(album, song) {
      return album.songs.indexOf(song);
@@ -313,12 +320,6 @@ var filterTimeCode = function(timeInSeconds) {
     
 };
 
-// var newsonglength = function(){
-// currentSoundFile.bind('timeupdate', function(event) {
-//     var timer = buzz.toTimer(this.getTime());
-//     $("song-item-duration").html = timer;
-// })
-// };
 
 var albums = [albumPicasso, albumDistract, albumMarconi];
 
